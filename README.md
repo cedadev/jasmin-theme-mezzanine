@@ -5,7 +5,7 @@ JASMIN websites deployed using the Mezzanine content management system.
 
 The base template base.html is intended to override the default mezzanine base.html
 but itself extends layout.html from the "jasmin_theme" package of jasmin-theme-django
-(https://github.com/cedadev/jasmin-theme)
+(https://github.com/cedadev/jasmin-theme-django)
 
 ## Installation
 
