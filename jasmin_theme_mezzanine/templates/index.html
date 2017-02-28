@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Home" %}{% endblock %}
+{% block head_title %}{% trans "Home" %}{% endblock %}
+
+{% block breadcrumb_wrapper %}
+{% endblock %}
+
+{% block content_main %}
+{% blocktrans %}
+<div class="business-header">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12"><!-- The background image is set in the custom CSS -->
+<h1 class="tagline">Petascale storage and cloud computing for Big Data challenges in environmental science</h1>
+<p><a href="/what-is-jasmin" class="btn btn-primary btn-large pull-right">Learn more &raquo;</a></p>
+</div>
+</div>
+</div>
+</div>
+<hr />
+<div class="row">
+<div class="col-sm-4">
+<h2>Data-intensive computing</h2>
+<p>JASMIN provides the UK and European climate and earth-system science communities with an efficient data analysis environment. Many datasets, particularly model data, are too big to be easily shipped around: JASMIN enables scientists to bring their processing to the data.</p>
+</div>
+<div class="col-sm-4">
+<h2>Flexible data access</h2>
+<p>JASMIN provides new ways for scientists to collaborate in self-managing group workspaces, enabling models and algorithms to be evaluated alongside curated archive data, and for data to be shared and evaluated before being deposited in the permanent archive.</p>
+</div>
+<div class="col-sm-4">
+<h2>Scalable future</h2>
+<p>JASMIN enables <a title="Centre for Environmental Data Archival" href="http://www.ceda.ac.uk">CEDA</a> to carry out its mission of data curation and facilitation more efficiently. Fast, parallel, scalable storage provides a home for in-demand archive data, while a virtualised server infrastructure provides a more capable base for delivery of CEDA's data centre services to the science community.</p>
+</div>
+</div>
+{% endblocktrans %}
+{% endblock %}

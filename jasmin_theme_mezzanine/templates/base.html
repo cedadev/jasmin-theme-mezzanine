@@ -1,0 +1,117 @@
+{% extends "jasmin_theme/layout.html" %}
+
+{% load pages_tags mezzanine_tags i18n staticfiles cookielaw_tags %}
+
+{% block head_title %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}{% endblock %}
+
+{% block blog_feeds %}
+{% ifinstalled mezzanine.blog %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+<link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+{% endifinstalled %}
+{% endblock %}
+
+
+{% block stylesheets_extra %}
+<link rel="stylesheet" href="{% static "css/mezzanine.css" %}">
+{% endblock %}
+
+{% block head_js_extra %}
+<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+{% block extra_js %}{% endblock %}
+{% endblock %}
+<!--[if lt IE 9]>
+<script src="{% static "js/html5shiv.js" %}"></script>
+<script src="{% static "js/respond.min.js" %}"></script>
+<![endif]-->
+
+{% block navbar_main %}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">{% trans "Toggle Navigation" %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% block branding %}
+            {% if settings.SITE_TITLE %}<a class="navbar-brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
+            {# {% if settings.SITE_TAGLINE %}<p class="navbar-text visible-lg">{{ settings.SITE_TAGLINE }}</p>{% endif %} #}
+            {% endblock %}
+        </div>
+        <div class="navbar-collapse collapse">
+            {% search_form %}
+            {% block navigation %}
+                {% page_menu "pages/menus/dropdown.html" %}
+            {% endblock %}
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+
+
+
+
+{% block content_main %}
+
+    {% block content_header %}
+
+        <div class="row">
+            <div class="col-md-12">
+                    <div>
+                        <h1 class="business-header-page tagline">{% block page_title %}{% block title %}{% endblock %}{% endblock %}</h1>
+                        {% block breadcrumbs %}{% endblock %}
+                    </div>
+            </div>
+        </div>
+        {% block breadcrumb_wrapper %}
+
+        <div class="row">
+            <div class="col-md-12">
+            <ul class="breadcrumb">
+            {% spaceless %}
+            {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+            {% endspaceless %}
+            </ul>
+            </div>
+        </div>
+        {% endblock %}
+
+    {% endblock %}
+
+
+
+    {% block notifications %}{% endblock %}
+
+    {% block left_wrapper %}
+    {% endblock %}
+
+    {% block mid_wrapper %}
+        <div class="row">
+            <div class="col-md-12">
+                {% block content %}
+                    {% block main %}
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block right_wrapper %}
+    	{% block right_panel %}
+    	{% endblock %}
+    {% endblock %}
+
+{% endblock %}
+
+{% block footer_js %}
+{{ block.super }}
+{% include "includes/footer_scripts.html" %}
+{% endblock %}
+
+</div>
+</body>
+</html>
