@@ -1,32 +1,29 @@
 {% extends "base.html" %}
 {% load mezzanine_tags static blog_tags keyword_tags pages_tags %}
 
-{% block extra_js %}
-<script type="text/javascript" src="{% static 'tickermepink/js/tickerme.min.js' %}"></script>
-<script type="text/javascript">
-$(function(){
-	$('#ticker').tickerme();
-	// fade_speed
-	// The speed each story will fade in and out (milliseconds).
-	fade_speed: `500`
+{% block head_js_extra %}
+{{ block.super }}
+<script src="{% static 'jquery-ticker/jquery.ticker.min.js' %}"></script>
+{% endblock %}
 
-	// duration
-	// The length of time a story is on the screen (milliseconds).
-	duration: `3000`
+{% block stylesheets_extra %}
+{{ block.super }}
+{% endblock %}
 
-	// auto_stop
-	// If `true`, the ticker will automatically stop when the previous or next button is clicked.
-	auto_stop: `true`
-
-	// control_colour
-    // The colour of the play, pause, previous and next controls.
-	control_colour: `#333333`
-
-	// control_rollover
-	// The colour of the control buttons on rollover.
-	control_rollover: `#666666`
-});
-</script>
+{% block head_extra %}
+<style>
+.ticker {
+  width: 90%;
+  margin: 10px auto;
+}
+ /* The HTML list gets replaced with a single div,
+    which contains the active ticker item, so you
+    can easily style that as well */
+.ticker div {
+  display: inline-block;
+  word-wrap: break-word;
+}
+</style>
 {% endblock %}
 
 {% block title %}
@@ -67,8 +64,8 @@ $(function(){
 							<div class="col-sm-1">
 								<a href="{% url 'blog_post_list' %}" class="btn btn-default btn-xs">News</a>
 							</div>
-							<div class="col-sm-10">
-						    	<ul id="ticker">
+							<div class="ticker">
+						    	<ul>
 								{% for recent_post in recent_posts %}
 									<li>
 										<a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
@@ -80,6 +77,22 @@ $(function(){
 					</div>
 				</div>
 			{% endif %}
+			<script>
+			$('.ticker').ticker(
+				$.fn.ticker.defaults = {
+				    random:        false, // Whether to display ticker items in a random order
+				    itemSpeed:     2000,  // The pause on each ticker item before being replaced
+				    cursorSpeed:   50,    // Speed at which the characters are typed
+				    pauseOnHover:  true,  // Whether to pause when the mouse hovers over the ticker
+				    finishOnHover: true,  // Whether or not to complete the ticker item instantly when moused over
+				    cursorOne:     '',   // The symbol for the first part of the cursor
+				    cursorTwo:     '',   // The symbol for the second part of the cursor
+				    fade:          true,  // Whether to fade between ticker items or not
+				    fadeInSpeed:   600,   // Speed of the fade-in animation
+				    fadeOutSpeed:  300    // Speed of the fade-out animation
+				}
+			);
+			</script>
 		{% endblock %}
 
 		<hr/>
