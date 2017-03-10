@@ -1,0 +1,25 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags static %}
+
+{% block main %}
+
+<div id="gallery" class="gallery four" style="clear: both;">
+    {% for item in items %}
+    <div class="element col-md-3 pull-left{% for cat in item.categories.all %} {{ cat.slug }}{% endfor %}">
+
+        <h4><a class="inherit-color" href="{{ item.get_absolute_url }}">{{ item.title }}</a></h4>
+        {{ item.description_from_content|safe }}
+        {% if item.featured_image %}
+	        <a href="{{ item.get_absolute_url }}">
+	            <div class="thumbnail">
+	                <img src="{{ MEDIA_URL }}{% thumbnail item.featured_image 255 170 %}">
+	            </div>
+	        </a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block right_wrapper %}{% endblock %}

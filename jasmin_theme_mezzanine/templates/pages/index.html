@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load mezzanine_tags static blog_tags keyword_tags pages_tags %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'tickermepink/js/tickerme.min.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+	$('#ticker').tickerme();
+	// fade_speed
+	// The speed each story will fade in and out (milliseconds).
+	fade_speed: `500`
+
+	// duration
+	// The length of time a story is on the screen (milliseconds).
+	duration: `3000`
+
+	// auto_stop
+	// If `true`, the ticker will automatically stop when the previous or next button is clicked.
+	auto_stop: `true`
+
+	// control_colour
+    // The colour of the play, pause, previous and next controls.
+	control_colour: `#333333`
+
+	// control_rollover
+	// The colour of the control buttons on rollover.
+	control_rollover: `#666666`
+});
+</script>
+{% endblock %}
+
+{% block title %}
+{% editable page.title %}{{ page.title }}{% endeditable %}
+{% endblock %}
+
+{% block title_wrapper %}
+{% endblock %}
+
+{% block breadcrumb_wrapper %}
+{% endblock %}
+
+{% block content_wrapper %}
+
+	{% block main %}
+
+	{# Override content_header to omit it #}
+	{% block content_header %}{% endblock %}
+
+		<div class="business-header">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12 middle"><!-- The background image is set in the custom CSS -->
+						<h1 class="tagline">{{ homepage.leader_text }}</h1>
+						<p><a href="{{ homepage.button_link }}" class="btn btn-primary pull-right">{{ homepage.button_text }} &raquo;</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+  		{% block blog_recent_posts %}
+			{% blog_recent_posts 3 as recent_posts %}
+			{% if recent_posts %}
+				<div class="alert alert-info alert-special alert-dismissable" data-alert="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-1">
+								<a href="{% url 'blog_post_list' %}" class="btn btn-default btn-xs">News</a>
+							</div>
+							<div class="col-sm-10">
+						    	<ul id="ticker">
+								{% for recent_post in recent_posts %}
+									<li>
+										<a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a>
+								    </li>
+								{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endblock %}
+
+		<hr/>
+
+		{% if homepage.boxes.all.count > 0 %}
+			<div class="row">
+				{% for box in homepage.boxes.all %}
+					<div class="col-sm-4">
+						<div class="service">
+							<span class="service-icon">
+	                        	{% if box.link %}<a href="{{box.link}}">{% endif %}<i class="fa {{ box.icon }} fa-4x"></i>{% if box.link %}</a>{% endif %}
+	                        </span>
+	                    </div>
+						<h2>{{ box.title }} {% if box.link %}<a href="{{box.link}}" class="btn btn-primary btn-xs"> &raquo;</a>{% endif %}</h2>
+						{{ box.content|richtext_filters|safe }}
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+
+
+
+	{% endblock %}
+
+{% endblock %}

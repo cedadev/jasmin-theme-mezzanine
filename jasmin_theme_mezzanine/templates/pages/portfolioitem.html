@@ -1,0 +1,38 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags static %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-10">
+
+        <div class="flexslider">
+            {% if portfolioitem.featured_image or portfolioitem.images.all %}
+            <ul class="slides">
+                {% if portfolioitem.featured_image %}
+                <li data-thumb="{{ MEDIA_URL }}{% thumbnail portfolioitem.featured_image 322 214 %}">
+                    <img alt="{{ page.title }} featured image" src="{{ MEDIA_URL }}{% thumbnail portfolioitem.featured_image 645 0 %}">
+                </li>
+                {% endif %}
+                {% for image in portfolioitem.images.all %}
+                <li data-thumb="{{ MEDIA_URL }}{% thumbnail image.file 322 214 %}">
+                    <img{% if image.alt_text %} alt="{{ image.alt_text }}"{% endif %} src="{{ MEDIA_URL }}{% thumbnail image.file 645 0 %}">
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="col-md-5">
+        {% editable portfolioitem.subtitle portfolioitem.content portfolioitem.href %}
+        {% if portfolioitem.subtitle %}<h3>{{ portfolioitem.subtitle }}</h3>{% endif %}
+        {% endeditable %}
+        {{ portfolioitem.content|richtext_filters|safe }}
+        {% if portfolioitem.href %}<a href="{{ portfolioitem.href }}" class="btn btn-primary">Learn more</a>{% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block right_wrapper %}{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags pages_tags %}
+
+{% block main %}
+<div class="special-wrapper wrapper-1">
+    {% editable page.sitesectionpage.content %}
+    {{ page.sitesectionpage.content|richtext_filters|safe }}
+    {% endeditable %}
+</div>
+
+{% page_menu page "pages/menus/sitesectionpagelist.html" %}
+
+
+{% endblock %}
+
+{% block right_wrapper %}
+<div class="col-md-3 right">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+        <h3 class="panel-title">Sections</h3>
+      </div>
+
+		    <div class="panel-body">
+		    {% block right_panel %}
+		    	{# if the page is a primary page put it at the top of the tree, otherwise start the tree with its uppermost ancestor #}
+		    	{# http://grokbase.com/t/gg/mezzanine-users/129ak8e8s8/in-menu-question #}
+
+			    {% if page.parent %}
+					<div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" page.get_ascendants.-1 %}</div>
+				{% else %}
+					<div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" page %}</div>
+				{% endif %}
+
+		    {% endblock %}
+		    </div>
+
+	</div>
+</div>
+{% endblock %}
